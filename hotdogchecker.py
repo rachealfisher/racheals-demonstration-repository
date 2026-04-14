@@ -10,4 +10,4 @@ if myfood == "hotdog" or myfood == "hot dog":
     print("This is a hot dog")
     
 else:
-    print("This is not a hot dog")
+    print("This is not a hot dog I swear")
