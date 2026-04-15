@@ -18,7 +18,7 @@ GS_data = data["GS"]
 
 
 # write our function dependent on time and tau values
-def MVsim(t, tau1, tau2, tau3):
+def MVsim(t, tau1, tau2, tau3, EF0):
     N = len(t) # number of points
     
     # define our tau values
@@ -32,7 +32,7 @@ def MVsim(t, tau1, tau2, tau3):
     GS = np.zeros(N)
     
     # create a starting flat excited state population
-    EF[0] = 10000
+    EF[0] = EF0
     
     # define a "dt" or a timestep between each point
     dt = 0.1
@@ -52,20 +52,32 @@ def MVsim(t, tau1, tau2, tau3):
     return EF, ER, GS # return each changing population
 
 
+# let's plot our data alone to help guide our EF0 guess
+plt.figure()
+
+plt.plot(t, EF_data, label="EF data")
+
+plt.plot(t, ER_data, label="ER data")
+
+plt.plot(t, GS_data, label="GS data")
+
+plt.legend()
+plt.show()
+
 # curve fit can only accept one array. Therefore, we need to concatenate all of our arrays.
 # this is a wrapper function that does that for us
-def model_all(t, tau1, tau2, tau3):
-    EF, ER, GS = MVsim(t, tau1, tau2, tau3)
+def model_all(t, tau1, tau2, tau3, EF0):
+    EF, ER, GS = MVsim(t, tau1, tau2, tau3, EF0)
     return np.concatenate((EF, ER, GS))
 
 ydata = np.concatenate((EF_data, ER_data, GS_data))
 
-p0 = [4, 4, 6] # make some tau guesses
+p0 = [4, 4, 6, 10000] # make some tau guesses
 
 # fit to our model
 popt, pcov = curve_fit(model_all, t, ydata, p0=p0)
 
-print("Fitted taus:", popt)
+print("Fitted taus and EF0:", popt)
 EF_fit, ER_fit, GS_fit = MVsim(t, *popt) # *popt automatically unwraps all of our variables. so *popt = tau1, tau2, tau3
 
 # let's plot our data with the fit on top

@@ -18,7 +18,7 @@ GS_data = data["GS"]
 
 
 # write our function dependent on time and tau values
-def MVsim(t, tau1, tau2, tau3):
+def MVsim(t, tau1, tau2, tau3, EF0):
     N = len(t) # number of points
     
     # define our tau values
@@ -32,7 +32,7 @@ def MVsim(t, tau1, tau2, tau3):
     GS = np.zeros(N)
     
     # create a starting flat excited state population
-    EF[0] = 10000
+    EF[0] = EF0
     
     # create a "dt" or a timestep between each point
     dt = 0.1
@@ -54,9 +54,13 @@ def MVsim(t, tau1, tau2, tau3):
 
 # curve fit can only accept one array. Therefore, we need to concatenate all of our arrays.
 # this is a wrapper function that does that for us
-def model_all(t, tau1, tau2, tau3):
-    EF, ER, GS = MVsim(t, tau1, tau2, tau3)
+def model_all(t, tau1, tau2, tau3, EF0):
+    EF, ER, GS = MVsim(t, tau1, tau2, tau3, EF0)
     return np.concatenate((EF, ER, GS))
+
+
+# let's plot our data alone to help guide our EF0 guess
+# TRY PLOTTING EF, ER, GS AGAINST t HERE
 
 ydata = np.concatenate((EF_data, ER_data, GS_data))
 
