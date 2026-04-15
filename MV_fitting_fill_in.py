@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 # load in simulated "collected data"
 data = np.load("dataset.npz")
 t = data["t"]
-EF_data = data["EF"]
+EF_data = data["EF"] # THESE ARE OUR MEASURED DATA FOR EF, ER, GS
 ER_data = data["ER"]
 GS_data = data["GS"]
 
