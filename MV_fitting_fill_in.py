@@ -60,7 +60,7 @@ def model_all(t, tau1, tau2, tau3, EF0):
 
 
 # let's plot our data alone to help guide our EF0 guess
-# TRY PLOTTING EF, ER, GS AGAINST t HERE
+''' TRY PLOTTING EF, ER, GS AGAINST t HERE '''
 
 ydata = np.concatenate((EF_data, ER_data, GS_data))
 
